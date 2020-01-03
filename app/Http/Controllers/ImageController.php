@@ -39,7 +39,7 @@ class ImageController extends Controller
         if ($request->file('image') != null) {
             // TODO: 本当に画像ファイルかどうか、のバリデーションを追加したい
             if ($request->file('image')->isValid()) {
-                \App\Models\Image::create(
+                $image = \App\Models\Image::create(
                     ['name' => basename($request->image->store('public/image'))]
                 );
                 \Log::debug('アップロードした画像を保存しました');
@@ -50,7 +50,7 @@ class ImageController extends Controller
             \Log::debug('画像が指定されていません');
         }
 
-        return view('welcome');
+        return view('image', ['image' => $image->name]);
     }
 
     /**
@@ -61,7 +61,7 @@ class ImageController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
