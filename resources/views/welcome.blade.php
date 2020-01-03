@@ -9,7 +9,7 @@
         <form action="image" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group @if($errors->has('image')) has-error @endif">
-                <label for="image" class="col-md-3 control-label">画像ファイル</label>
+                <label for="image" class="col-md-3 control-label">画像ファイルをアップロードしてください</label>
                 <div class="col-sm-9">
                     <input type="file" class="form-control" id="image" name="image">
                     @if($errors->has('image'))<span class=" text-danger">{{ $errors->first('image') }}</span>
