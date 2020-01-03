@@ -43,7 +43,7 @@ class ImageController extends Controller
 
                 $imageName = basename($request->image->store('public/image'));
                 // $command="/var/www/html/kusokora-maker/app/Http/Controllers/python/python image_face_trim.py /var/www/html/kusokora-maker/app/storage/app/public/image/{$image->name}";
-                $command="python /var/www/html/kusokora-maker/app/Http/Controllers/python/image_face_trim.py /var/www/html/kusokora-maker/storage/app/public/image/{$imageName}";
+                $command="python /var/www/html/kusokora-maker/app/Http/Controllers/python/image_face_trim.py /var/www/html/kusokora-maker/storage/app/public/image/{$imageName} /var/www/html/kusokora-maker/storage/app/public/image/original/mv-1.jpg";
                 exec($command,$output,$status);
 
                 \Log::debug($status);
