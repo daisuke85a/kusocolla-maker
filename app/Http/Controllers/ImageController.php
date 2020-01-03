@@ -40,9 +40,26 @@ class ImageController extends Controller
         if ($request->file('image') != null) {
             // TODO: 本当に画像ファイルかどうか、のバリデーションを追加したい
             if ($request->file('image')->isValid()) {
-                $image = \App\Models\Image::create(
-                    ['name' => basename($request->image->store('public/image'))]
+
+                $imageName = basename($request->image->store('public/image'));
+                // $command="/var/www/html/kusokora-maker/app/Http/Controllers/python/python image_face_trim.py /var/www/html/kusokora-maker/app/storage/app/public/image/{$image->name}";
+                $command="python /var/www/html/kusokora-maker/app/Http/Controllers/python/image_face_trim.py /var/www/html/kusokora-maker/storage/app/public/image/{$imageName}";
+                exec($command,$output,$status);
+
+                \Log::debug($status);
+                \Log::debug($output);
+
+                $faceNum = 0;
+                if($output[1] === '0'){
+                    $faceNum = $output[2];
+                }
+
+                $image = \App\Models\Image::create([
+                    'name' => $imageName,
+                    'face_num' => $faceNum
+                    ]
                 );
+
                 \Log::debug('アップロードした画像を保存しました');
             } else {
                 \Log::debug('画像の保存に失敗しました');
@@ -62,7 +79,7 @@ class ImageController extends Controller
      */
     public function show(Image $image)
     {
-        return view('image', ['image' => $image->name]);
+        return view('image', ['image' => $image]);
     }
 
     /**
