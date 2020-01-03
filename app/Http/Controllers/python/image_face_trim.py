@@ -4,10 +4,35 @@ import sys
 import os
 import shutil
 
+def rotate(img, deg):
+	#高さを定義
+	height = img.shape[0]                         
+	#幅を定義
+	width = img.shape[1]  
+	#回転の中心を指定                          
+	center = (int(width/2), int(height/2))
+
+	#回転角を指定
+	angle = deg
+	#スケールを指定
+	scale = 1.0
+	#getRotationMatrix2D関数を使用
+	trans = cv2.getRotationMatrix2D(center, angle , scale)
+	#アフィン変換
+	image2 = cv2.warpAffine(img, trans, (width,height))
+
+	return image2 
+
+
+def add(original, add, out, top, left):
+	height, width = add.shape[:2]
+	original[top:height + top, left:width + left] = add
+	cv2.imwrite(out, original)
+
 args = sys.argv
 argc = len(args)
 
-if(argc != 2):
+if(argc < 2):
 	print('1')
 	print('引数を指定して実行してください。')
 	quit()
@@ -58,6 +83,19 @@ for rect in facerect:
 	new_image_path = dir_path + '/' + str(i) + path[1]
 	cv2.imwrite(new_image_path, dst)
 	i += 1
+	if(i == 1):
+		if(argc == 3):
+			#顔だけ画像合成して保存
+			original_image_path = args[2]
+			original_image = cv2.imread(original_image_path)
+			new_image_path = dir_path + '/' +'add' + path[1]
+			#サイズ変更
+			dst = cv2.resize(dst,(200,200))
+			#いい感じに回転
+			dst = rotate(dst, 135)
+			#合成
+			add(original_image, dst, new_image_path, 50, 300)
+
 
 if len(facerect) > 0:
 	color = (255, 255, 255) #白
