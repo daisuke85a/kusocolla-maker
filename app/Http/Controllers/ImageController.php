@@ -42,14 +42,14 @@ class ImageController extends Controller
             if ($request->file('image')->isValid()) {
 
                 $imageName = basename($request->image->store('public/image'));
-                // $command="/var/www/html/kusokora-maker/app/Http/Controllers/python/python image_face_trim.py /var/www/html/kusokora-maker/app/storage/app/public/image/{$image->name}";
-                $command="python /var/www/html/kusokora-maker/app/Http/Controllers/python/image_face_trim.py /var/www/html/kusokora-maker/storage/app/public/image/{$imageName} /var/www/html/kusokora-maker/storage/app/public/image/original/mv-1.jpg";
+                $command="python ".__DIR__."/python/image_face_trim.py ".storage_path()."/app/public/image/{$imageName} " .storage_path()."/app/private/image/original/1.jpg";
                 exec($command,$output,$status);
 
                 \Log::debug($status);
                 \Log::debug($output);
 
                 $faceNum = 0;
+                // pythonの処理が成功した場合
                 if($output[1] === '0'){
                     $faceNum = $output[2];
                 }
