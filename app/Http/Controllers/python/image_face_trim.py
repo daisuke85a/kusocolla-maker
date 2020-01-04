@@ -39,8 +39,7 @@ if(argc < 2):
 
 image_path = args[1]
 
-# cascade_path = "./data/haarcascades/haarcascade_frontalface_alt.xml"
-cascade_path = "/var/www/html/kusokora-maker/app/Http/Controllers/python/data/haarcascades/haarcascade_frontalface_alt.xml"
+cascade_path = "./data/haarcascades/haarcascade_frontalface_alt.xml"
 
 #ファイル読み込み
 print(image_path)
