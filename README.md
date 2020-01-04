@@ -1,6 +1,14 @@
 # クソ★コラメーカー
 クソコラが簡単に作れる
 
+# 前提条件
+php 7.3.13-1
+MariaDB-client 10.4.11-1
+Python 2.7.5
+opencv-python 2.4.5-3.el7 
+
+
+
 # デプロイ方法
 git cloneする  
 cp .env.example .env  
