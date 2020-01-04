@@ -42,16 +42,20 @@ class ImageController extends Controller
             if ($request->file('image')->isValid()) {
 
                 $imageName = basename($request->image->store('public/image'));
-                $command="python ".__DIR__."/python/image_face_trim.py ".storage_path()."/app/public/image/{$imageName} " .storage_path()."/app/private/image/original/1.jpg";
+                $command="python ".__DIR__."/python/image_face_trim.py ".storage_path()."/app/public/image/{$imageName} "
+                                 .storage_path()."/app/private/image/original/1.jpg ".
+                                 __DIR__."/python/data/haarcascades/haarcascade_frontalface_alt.xml";
+
                 exec($command,$output,$status);
 
+                \Log::debug($command);
                 \Log::debug($status);
                 \Log::debug($output);
 
                 $faceNum = 0;
                 // pythonの処理が成功した場合
-                if($output[1] === '0'){
-                    $faceNum = $output[2];
+                if($output[0] === '0'){
+                    $faceNum = $output[1];
                 }
 
                 $image = \App\Models\Image::create([

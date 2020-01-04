@@ -1,4 +1,14 @@
 # -*- coding:utf-8 -*-
+
+# 概要: 画像から顔だけ切り出して、背景画像と合成する
+# 引数
+# args[1]: 顔を切り出したい画像のファイルパス
+# args[2]: 背景画像のファイルパス
+# args[3]: 顔検出用の機械学習データのファイルパス
+# 出力
+# output[0]: エラーコード:0成功 0以外失敗
+# output[1]: 検出した顔画像の数
+
 import cv2
 import sys
 import os
@@ -32,21 +42,26 @@ def add(original, add, out, top, left):
 args = sys.argv
 argc = len(args)
 
-if(argc < 2):
+if(argc != 4):
 	print('1')
 	print('引数を指定して実行してください。')
 	quit()
 
 image_path = args[1]
-
-cascade_path = "./data/haarcascades/haarcascade_frontalface_alt.xml"
+cascade_path = args[3]
 
 #ファイル読み込み
-print(image_path)
 image = cv2.imread(image_path)
 if(image is None):
 	print('2')
-	print('画像を開けません。')
+	print('顔を切り出したい画像が開けません。')
+	quit()
+
+original_image_path = args[2]
+original_image = cv2.imread(original_image_path)
+if(original_image is None):
+	print('3')
+	print('背景画像が開けません。')
 	quit()
 
 #グレースケール変換
@@ -62,6 +77,9 @@ print(0)
 print(len(facerect))
 print("face rectangle")
 print(facerect)
+print(image_path)
+print(original_image_path)
+print(cascade_path)
 
 #ディレクトリの作成
 if len(facerect) > 0:
@@ -82,26 +100,14 @@ for rect in facerect:
 	new_image_path = dir_path + '/' + str(i) + path[1]
 	cv2.imwrite(new_image_path, dst)
 	i += 1
+	#最初に検出した顔が対象
 	if(i == 1):
-		if(argc == 3):
-			#顔だけ画像合成して保存
-			original_image_path = args[2]
-			original_image = cv2.imread(original_image_path)
-			new_image_path = dir_path + '/' +'add' + path[1]
-			#サイズ変更
-			dst = cv2.resize(dst,(200,200))
-			#いい感じに回転
-			dst = rotate(dst, 135)
-			#合成
-			add(original_image, dst, new_image_path, 50, 300)
+		#顔だけ画像合成して保存
+		new_image_path = dir_path + '/' +'add' + path[1]
+		#サイズ変更
+		dst = cv2.resize(dst,(200,200))
+		#いい感じに回転
+		dst = rotate(dst, 135)
+		#合成
+		add(original_image, dst, new_image_path, 50, 300)
 
-
-if len(facerect) > 0:
-	color = (255, 255, 255) #白
-	for rect in facerect:
-		#検出した顔を囲む矩形の作成
-		cv2.rectangle(image, tuple(rect[0:2]),tuple(rect[0:2] + rect[2:4]), color, thickness=2)
-
-	#認識結果の保存
-	new_image_path = dir_path + '/' +'all' + path[1]
-	cv2.imwrite(new_image_path, image)
