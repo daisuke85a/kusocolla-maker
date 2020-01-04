@@ -24,4 +24,6 @@ mysql -u 'ユーザー名' -p
 CREATE DATABASE `dbname` CHARACTER SET utf8mb4;  
 CREATE USER 'ユーザー名'@'localhost' IDENTIFIED BY 'パスワード';  
 GRANT ALL PRIVILEGES ON `dbname`.* TO 'username'@'localhost'  IDENTIFIED BY 'password';  
+php artisan migrate:fresh  
+
 背景となる画像ファイルを/storage/app/private/image/original/1.jpgに置く  
