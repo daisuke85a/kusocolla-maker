@@ -27,3 +27,12 @@ GRANT ALL PRIVILEGES ON `dbname`.* TO 'username'@'localhost'  IDENTIFIED BY 'pas
 php artisan migrate:fresh  
 
 背景となる画像ファイルを/storage/app/private/image/original/1.jpgに置く  
+
+# その他
+
+## ステージング環境などでBASIC認証させる方法
+
+- .envの下記を更新する  
+APP_ENV=dev  
+BASIC_USERNAME=[ユーザー名]  
+BASIC_PASSWORD=[パスワード]  
