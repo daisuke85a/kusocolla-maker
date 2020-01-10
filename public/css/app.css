@@ -1,0 +1,38 @@
+.kusocolla {
+  max-width: 1200px;
+  height: 630px;
+  background: red;
+  position: relative;
+}
+
+.kusocolla__face {
+  position: absolute;
+}
+
+.kusocolla__face img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.kusocolla .face-01 {
+  width: 200px;
+  height: 200px;
+  top: 0;
+  left: 0;
+}
+
+.kusocolla .face-02 {
+  width: 150px;
+  height: 150px;
+  top: 200px;
+  left: 200px;
+}
+
+.kusocolla .face-03 {
+  width: 80px;
+  height: 80px;
+  top: 0;
+  left: 400px;
+}
+
